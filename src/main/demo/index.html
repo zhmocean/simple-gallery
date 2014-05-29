@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<style type="text/css">
+    .foot{position:fixed;_position:absolute;bottom:0px;_bottom:0px;_margin-top:expression(this.style.pixelHeight + document.documentElement.scrollTop)}
+</style>
+      <script type="text/javascript">
+
+          $(document).ready(function(){
+                var top = $("div#top");
+                top.animate({height:'show'});
+                var top = $("div#bottom");
+                top.animate({height:'show'});
+            }
+          )
+      </script>
+  </head>
+<body style="background: #555555; margin: 0px;">
+  <div id="top" name="top" style="opacity: 0.6; background: #111111; margin: 0px; height: 80px;color: #BBBBBB;display: none;">
+  </div>
+  <div id="bottom" name="bottom" class="foot" style="opacity: 0.4; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
+
+  </div>
+</body>
+</html>
