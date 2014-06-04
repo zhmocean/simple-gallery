@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<style type="text/css">
+    .foot{position:fixed;_position:absolute;bottom:0px;_bottom:0px;_margin-top:expression(this.style.pixelHeight + document.documentElement.scrollTop)}
+</style>
+      <script type="text/javascript">
+		var isH = false;
+
+          $(document).ready(function(){
+            
+	toH();
+}
+          )
+
+	function stopAll(){
+		$("div").stop();
+
+}
+
+	function toH(){
+		if(isH){
+		return;
+	}
+	stopAll();
+		hideV(function(){
+			showH();
+});
+		//showH();
+		isH = true;
+}
+
+	function toV(){
+		if(! isH){
+		return;
+	}
+
+	stopAll();
+
+		hideH(function(){
+			showV();
+});
+		
+		//showV();
+		isH = false;
+}
+
+	function showH(){
+                var top = $("div#top");
+                top.animate({height:'show'});
+                var top = $("div#bottom");
+                top.animate({height:'show'});
+
+}
+	function showV(){
+                var left = $("div#left");
+                left.animate({width:'show'});
+                var right = $("div#right");
+                right.animate({width:'show'});
+
+}
+        function hideH(callback){
+                var top = $("div#top");
+                top.animate({height:'hide'}, 'normal', null, callback);
+                var top = $("div#bottom");
+                top.animate({height:'hide'});
+
+}
+        function hideV(callback){
+                var left = $("div#left");
+                left.animate({width:'hide'}, 'normal', null, callback);
+                var right = $("div#right");
+                right.animate({width:'hide'});
+
+}
+
+
+	function exBar(){
+		if (isH){
+			toV();
+		}else{
+			toH();
+		}
+
+		showImage('imgv.jpg');
+}
+	function showImage(img){
+		var imgPanel = $("div#imgcur");
+		imgPanel.css({"background-image":"url('"+img+"')"});
+		imgPanel.hide();
+		imgPanel.css({"left":"-40px"});
+		imgPanel.animate({opacity:'show', left:'0px'}, 'slow',null, null );
+}
+      </script>
+  </head>
+<body style="background: #555555; margin: 0px;">
+<div onclick="exBar()" id="imgcur" name="imgcur" style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;">
+
+</div>
+  <div id="top" name="top" style="width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 80px;color: #BBBBBB;display: none;">
+  </div>
+  <div id="bottom" name="bottom" class="foot" style="width:100%;bottom:0;position: absolute;opacity: 0.4; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
+
+  </div>
+  <div id="left" name="left" class="left" style="opacity: 0.6; background: #111111; margin: 0px; width: 140px;color: #BBBBBB;height: 100%;float:left;left:0;top:0;position:absolute;display: none;">
+sdfads
+</div>
+  <div id="right" name="right" class="right" style="opacity: 0.4; background: #111111; margin: 0px; width: 160px;color: #FFFFFF;height: 100%;right:0;top:0;position:absolute;display: none;">
+}
+
+idafsd
+  </div>
+
+</body>
+</html>
