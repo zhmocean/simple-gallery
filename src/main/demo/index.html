@@ -1,116 +1,187 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
-<style type="text/css">
-    .foot{position:fixed;_position:absolute;bottom:0px;_bottom:0px;_margin-top:expression(this.style.pixelHeight + document.documentElement.scrollTop)}
-</style>
-      <script type="text/javascript">
-		var isH = false;
+    <style type="text/css">
+        .foot {
+            position: fixed;
+            _position: absolute;
+            bottom: 0px;
+            _bottom: 0px;
+            _margin-top: expression(this.style.pixelHeight + document.documentElement.scrollTop)
+        }
+    </style>
+    <script type="text/javascript">
+        var isH = false;
+        var gallery = [
+            "http://photo.tangcu.biz/wp-content/gallery/tulip/IMG_5065.jpg",
+            "http://photo.tangcu.biz/wp-content/gallery/night/IMG_3568.jpg",
+            "http://photo.tangcu.biz/wp-content/gallery/night/IMG_0666.jpg",
+            "http://photo.tangcu.biz/wp-content/gallery/reed/IMG_1670.jpg"
+        ];
+        var nowImg = 0;
 
-          $(document).ready(function(){
-            
-	toH();
-}
-          )
+        $(document).ready(function () {
 
-	function stopAll(){
-		$("div").stop();
+                    toH();
+                }
+        )
 
-}
+        function stopAll() {
+            $("div").stop();
 
-	function toH(){
-		if(isH){
-		return;
-	}
-	stopAll();
-		hideV(function(){
-			showH();
-});
-		//showH();
-		isH = true;
-}
+        }
 
-	function toV(){
-		if(! isH){
-		return;
-	}
+        function toH() {
+            if (isH) {
+                return;
+            }
+            stopAll();
+            hideV(function () {
+                showH();
+            });
+            //showH();
+            isH = true;
+        }
 
-	stopAll();
+        function toV() {
+            if (!isH) {
+                return;
+            }
 
-		hideH(function(){
-			showV();
-});
-		
-		//showV();
-		isH = false;
-}
+            stopAll();
 
-	function showH(){
-                var top = $("div#top");
-                top.animate({height:'show'});
-                var top = $("div#bottom");
-                top.animate({height:'show'});
+            hideH(function () {
+                showV();
+            });
 
-}
-	function showV(){
-                var left = $("div#left");
-                left.animate({width:'show'});
-                var right = $("div#right");
-                right.animate({width:'show'});
+            //showV();
+            isH = false;
+        }
 
-}
-        function hideH(callback){
-                var top = $("div#top");
-                top.animate({height:'hide'}, 'normal', null, callback);
-                var top = $("div#bottom");
-                top.animate({height:'hide'});
+        function showH() {
+            var top = $("div#top");
+            top.animate({height: 'show'});
+            var top = $("div#bottom");
+            top.animate({height: 'show'});
 
-}
-        function hideV(callback){
-                var left = $("div#left");
-                left.animate({width:'hide'}, 'normal', null, callback);
-                var right = $("div#right");
-                right.animate({width:'hide'});
+        }
+        function showV() {
+            var left = $("div#left");
+            left.animate({width: 'show'});
+            var right = $("div#right");
+            right.animate({width: 'show'});
 
-}
+        }
+        function hideH(callback) {
+            var top = $("div#top");
+            top.animate({height: 'hide'}, 'normal', null, callback);
+            var top = $("div#bottom");
+            top.animate({height: 'hide'});
+
+        }
+        function hideV(callback) {
+            var left = $("div#left");
+            left.animate({width: 'hide'}, 'normal', null, callback);
+            var right = $("div#right");
+            right.animate({width: 'hide'});
+
+        }
 
 
-	function exBar(){
-		if (isH){
-			toV();
-		}else{
-			toH();
-		}
+        function exBar() {
+            if (isH) {
+                toV();
+            } else {
+                toH();
+            }
 
-		showImage('imgv.jpg');
-}
-	function showImage(img){
-		var imgPanel = $("div#imgcur");
-		imgPanel.css({"background-image":"url('"+img+"')"});
-		imgPanel.hide();
-		imgPanel.css({"left":"-40px"});
-		imgPanel.animate({opacity:'show', left:'0px'}, 'slow',null, null );
-}
-      </script>
-  </head>
-<body style="background: #555555; margin: 0px;">
-<div onclick="exBar()" id="imgcur" name="imgcur" style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;">
+            showImage('imgv.jpg');
+        }
+        function showImage(img, direction) {
+            var imgPanel = $("div#imgcur");
+
+            var preload = $("#preload");
+            preload.attr("src", img);
+
+            var loading = $("#loading");
+            loading.show();
+
+            document.getElementById("preload").onload = function () {
+
+                imgPanel.hide();
+                imgPanel.css({"background-image": "url('" + img + "')"});
+
+
+                if (direction == "r") {
+                    imgPanel.css({"left": "-40px"});
+                    //imgPanel.animate({opacity: 'hidden', left: '-40px'}, 'fast', null, null);
+                } else {
+                    imgPanel.css({"left": "40px"});
+                    //imgPanel.animate({opacity: 'hidden', left: '40px'}, 'fast', null, null);
+                }
+                imgPanel.animate({opacity: 'show', left: '0px'}, 'slow', null, null);
+loading.hide();
+            }
+
+        }
+
+        function toPreImage() {
+            if (nowImg > 0) {
+                nowImg--;
+            } else {
+                nowImg = gallery.length - 1;
+            }
+
+            showImage(gallery[nowImg], "l");
+        }
+
+        function toNextImage() {
+            if (nowImg < gallery.length - 1) {
+                nowImg++;
+            } else {
+                nowImg = 0;
+            }
+
+            showImage("gallery/" + gallery[nowImg], "r");
+        }
+
+    </script>
+</head>
+<body style="background: #555555; margin: 0px; overflow-x: hidden;">
+<div onclick="exBar()" id="imgcur" name="imgcur"
+     style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;">
 
 </div>
-  <div id="top" name="top" style="width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 80px;color: #BBBBBB;display: none;">
-  </div>
-  <div id="bottom" name="bottom" class="foot" style="width:100%;bottom:0;position: absolute;opacity: 0.4; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
-
-  </div>
-  <div id="left" name="left" class="left" style="opacity: 0.6; background: #111111; margin: 0px; width: 140px;color: #BBBBBB;height: 100%;float:left;left:0;top:0;position:absolute;display: none;">
-sdfads
+<div id="top" name="top"
+     style="width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 80px;color: #BBBBBB;display: none;">
 </div>
-  <div id="right" name="right" class="right" style="opacity: 0.4; background: #111111; margin: 0px; width: 160px;color: #FFFFFF;height: 100%;right:0;top:0;position:absolute;display: none;">
-}
+<div id="bottom" name="bottom" class="foot"
+     style="width:100%;bottom:0;position: absolute;opacity: 0.4; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
 
-idafsd
-  </div>
+</div>
+<div id="left" name="left" class="left"
+     style="opacity: 0.6; background: #111111; margin: 0px; width: 140px;color: #BBBBBB;height: 100%;float:left;left:0;top:0;position:absolute;display: none;">
+    sdfads
+</div>
+<div id="right" name="right" class="right"
+     style="opacity: 0.4; background: #111111; margin: 0px; width: 160px;color: #FFFFFF;height: 100%;right:0;top:0;position:absolute;display: none;">
 
+
+</div>
+<div id="pre-button"
+     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;left:0;opacity: 0.1; cursor: pointer; "
+     onclick="return toPreImage();"></div>
+<div id="next-button"
+     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;right:0;opacity: 0.1; cursor: pointer; "
+     onclick="return toNextImage();"></div>
+<img src="" id="preload" style="display: none;">
+
+<div style="width: 200px;margin:0 auto 0;">
+
+
+    <div id="loading"
+         style="z-index:99;position:absolute;display: none;opacity: 0.2;width: 200px;height:200px; margin-top: 300px; background: url('images/loading.gif') no-repeat center 0;"></div>
+</div>
 </body>
 </html>
