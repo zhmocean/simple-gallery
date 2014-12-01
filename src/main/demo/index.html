@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
@@ -10,14 +10,36 @@
             _bottom: 0px;
             _margin-top: expression(this.style.pixelHeight + document.documentElement.scrollTop)
         }
+
+        .exif-raw {
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+            font-family: helvetica;
+            font-size: 10px;
+            line-height: 1.2em;
+            color: white;
+            clear: both;
+            margin-top: 5px;
+        }
+
+        .exif-row-title{
+            float: left;
+            width: 100px;
+
+        }
+
+        .exif-row-desc{
+            right: 0;
+        }
     </style>
     <script type="text/javascript">
         var isH = false;
         var gallery = [
-            "http://photo.tangcu.biz/wp-content/gallery/tulip/IMG_5065.jpg",
-            "http://photo.tangcu.biz/wp-content/gallery/night/IMG_3568.jpg",
-            "http://photo.tangcu.biz/wp-content/gallery/night/IMG_0666.jpg",
-            "http://photo.tangcu.biz/wp-content/gallery/reed/IMG_1670.jpg"
+            {"src":"http://photo.tangcu.biz/wp-content/gallery/tulip/IMG_5065.jpg", "desc":"", "exif":{"Manufacturer":"Canon","Model Name":"Canon EOS 50D","Date":"2009:04:05 11:37:09","Exposure Time":"1\/250","F Number":5.6,"ISO":100,"Focal Length":"40mm","ExposureBiasValue":"0 EV","File Name":"IMG_0842.JPG","File Size":100597,"Software":"Picasa 3.0","X Resolution":"350\/1","Y Resolution":"350\/1","Exif Version":"2.21"}},
+            {"src":"http://photo.tangcu.biz/wp-content/gallery/night/IMG_3568.jpg", "desc":"", "exif":{}},
+            {"src":"http://photo.tangcu.biz/wp-content/gallery/night/IMG_0666.jpg", "desc":"", "exif":{}},
+            {"src":"http://photo.tangcu.biz/wp-content/gallery/reed/IMG_1670.jpg", "desc":"", "exif":{}}
         ];
         var nowImg = 0;
 
@@ -102,7 +124,7 @@
             var imgPanel = $("div#imgcur");
 
             var preload = $("#preload");
-            preload.attr("src", img);
+            preload.attr("src", img["src"]);
 
             var loading = $("#loading");
             loading.show();
@@ -110,8 +132,9 @@
             document.getElementById("preload").onload = function () {
 
                 imgPanel.hide();
-                imgPanel.css({"background-image": "url('" + img + "')"});
+                imgPanel.css({"background-image": "url('" + img["src"] + "')"});
 
+                displayExif(img["exif"]);
 
                 if (direction == "r") {
                     imgPanel.css({"left": "-40px"});
@@ -121,9 +144,24 @@
                     //imgPanel.animate({opacity: 'hidden', left: '40px'}, 'fast', null, null);
                 }
                 imgPanel.animate({opacity: 'show', left: '0px'}, 'slow', null, null);
-loading.hide();
+                loading.hide();
             }
 
+        }
+
+        function displayExif(exif) {
+            var exifSwitch = ["Model Name", "Exposure Time", "F Number", "ISO", "Focal Length",
+                "Focal Length In35mmFilm", "Light Source"];
+
+            if (exif) {
+                $("#exif_panel").empty();
+                for (var i in exifSwitch) {
+                    var key = exifSwitch[i];
+                    if (exif[key]) {
+                        $('<div class="exif-raw"><div class="exif-row-title">'+key+'</div><div class="exif-row-desc">'+exif[key]+'</div></div>').appendTo($("#exif_panel"))
+                    }
+                }
+            }
         }
 
         function toPreImage() {
@@ -154,11 +192,16 @@ loading.hide();
 
 </div>
 <div id="top" name="top"
-     style="width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 80px;color: #BBBBBB;display: none;">
+     style="z-index:999;width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 40px;color: #BBBBBB;display: none;">
+    <div id="top-logo" style="background: url('images/logo_white.png') no-repeat left 0;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"></div>
+    <div id="menu" style="width: 600px; float: right;">
+
+        3.3转角处的偶遇
+    </div>
 </div>
 <div id="bottom" name="bottom" class="foot"
-     style="width:100%;bottom:0;position: absolute;opacity: 0.4; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
-
+     style="z-index:999;width:100%;bottom:0;position: absolute;opacity: 0.5; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">
+<div id="exif_panel" style="width: 300px; float: right;height: 100%;"></div>
 </div>
 <div id="left" name="left" class="left"
      style="opacity: 0.6; background: #111111; margin: 0px; width: 140px;color: #BBBBBB;height: 100%;float:left;left:0;top:0;position:absolute;display: none;">
