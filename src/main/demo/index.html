@@ -1,7 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>糖醋鼻子眼画廊</title>
+<meta name="keywords" content="糖醋鼻子眼 摄影 糖醋鼻子 画廊 照片" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+
     <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="jquery.mnmenu.js"></script>
+    <script type="text/javascript" src="jquery.hoverintent.r7.js"></script>
+
+        <link href="styleIE.css" type="text/css" rel="stylesheet"/>
+        <link href="rightbt.css" type="text/css" rel="stylesheet"/>
+
     <style type="text/css">
         .foot {
             position: fixed;
@@ -44,7 +57,16 @@
         var nowImg = 0;
 
         $(document).ready(function () {
-
+                                    var rightMenuLevelSettings = {};
+                //Defaults
+                rightMenuLevelSettings[0] = new MNLevelSettings();
+                rightMenuLevelSettings[0].parentAttachmentPosition = "NW";
+                rightMenuLevelSettings[0].attachmentPosition = "NE";
+                //First level
+                rightMenuLevelSettings[1] = new MNLevelSettings();
+                rightMenuLevelSettings[1].parentAttachmentPosition = "SW";
+                rightMenuLevelSettings[1].attachmentPosition = "NW";
+                    $('#idmenu').mnmenu({levelSettings: rightMenuLevelSettings});
                     toH();
                 }
         )
@@ -196,7 +218,43 @@
     <div id="top-logo" style="background: url('images/logo_white.png') no-repeat left 0;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"></div>
     <div id="menu" style="width: 600px; float: right;">
 
-        3.3转角处的偶遇
+ <ul id="idmenu">
+            <li><a href="#" id="idTestLink"><span>File</span></a>
+                <ul>
+                    <li><a href="#" ><span>New</span></a></li>
+                    <li><a href="#" ><span>Open</span></a></li>
+                    <li><hr></hr></li>
+                    <li><a href="#" ><span>Save</span></a></li>
+                    <li><a href="#"><span>Save as...</span></a></li>
+                    <li><a href="#" ><span>Quit</span></a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Menu</a>
+                <ul>
+                    <li><a href="#">Level M-1</a></li>
+                    <li><a href="#">Level M-2</a></li>
+                    <li><a href="#">Level M-3</a></li>
+                    <li><a href="#">Level M-4</a></li>
+                    <li><a href="#">Level M-5</a></li>
+                    <li><a href="#">Level M-7</a></li>
+                    <li><a href="#">Level M-8</a></li>
+                    <li><a href="#">Level M-9</a></li>
+                    <li><a href="#">Level M-10</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" id="id47"><span>Web</span></a>
+                <ul>
+                    <li><a href="#" id="id48"><span>Log</span></a></li>
+                    <li><a href="#" id="id49"><span>Texts</span></a></li>
+                    <li><a href="#" id="id4a"><span>Categories</span></a></li>
+                    <li><a href="#" id="id4b"><span>Articles</span></a></li>
+                    <li><a href="#" id="id4c"><span>Files</span></a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </div>
 <div id="bottom" name="bottom" class="foot"
