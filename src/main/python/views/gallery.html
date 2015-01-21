@@ -8,12 +8,12 @@
 <meta name="keywords" content="糖醋鼻子眼 摄影 糖醋鼻子 画廊 照片" />
 <meta name="MSSmartTagsPreventParsing" content="True" />
 
-    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="jquery.mnmenu.js"></script>
-    <script type="text/javascript" src="jquery.hoverintent.r7.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.mnmenu.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.hoverintent.r7.js"></script>
 
-        <link href="styleIE.css" type="text/css" rel="stylesheet"/>
-        <link href="rightbt.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/css/styleIE.css" type="text/css" rel="stylesheet"/>
+        <link href="/static/css/rightbt.css" type="text/css" rel="stylesheet"/>
 
     <style type="text/css">
         .foot {
@@ -45,48 +45,69 @@
         .exif-row-desc{
             right: 0;
         }
+
+        .menu-item{
+            margin-left: 10px;
+        }
     </style>
     <script type="text/javascript">
         var isH = false;
-        var gallery = [
-            {"src":"http://photo.tangcu.biz/wp-content/gallery/tulip/IMG_5065.jpg", "desc":"郁金香", "exif":{"Manufacturer":"Canon","Model Name":"Canon EOS 50D","Date":"2009:04:05 11:37:09","Exposure Time":"1\/250","F Number":5.6,"ISO":100,"Focal Length":"40mm","ExposureBiasValue":"0 EV","File Name":"IMG_0842.JPG","File Size":100597,"Software":"Picasa 3.0","X Resolution":"350\/1","Y Resolution":"350\/1","Exif Version":"2.21"}},
-            {"src":"http://photo.tangcu.biz/wp-content/gallery/night/IMG_3568.jpg", "desc":"这是一个测试测试测试测试测试", "exif":{}},
-            {"src":"http://photo.tangcu.biz/wp-content/gallery/night/IMG_0666.jpg", "desc":"", "exif":{}},
-            {"src":"http://photo.tangcu.biz/wp-content/gallery/reed/IMG_1670.jpg", "desc":"", "exif":{}}
-        ];
+        var gallery = {{!pics}};
+        var menus = {{!menus}}
         var nowImg = 0;
 
         $(document).ready(function () {
-
-                    $('#pre-button').bind('mouseenter',function () {
-                        $('#pre-button').stop().animate({opacity: "0.4"}, 300);
-                    }).bind('mouseleave',function () {
-                        $('#pre-button').stop().animate({opacity: "0"}, 300);
-                    }).bind('click', function () {
-                        toPreImage();
-                    });
-
-                    $('#next-button').bind('mouseenter',function () {
-                        $('#next-button').stop().animate({opacity: "0.4"}, 300);
-                    }).bind('mouseleave',function () {
-                        $('#next-button').stop().animate({opacity: "0"}, 300);
-                    }).bind('click', function () {
-                        toNextImage();
-                    });
-
-                    var rightMenuLevelSettings = {};
-                    //Defaults
-                    rightMenuLevelSettings[0] = new MNLevelSettings();
-                    rightMenuLevelSettings[0].parentAttachmentPosition = "NW";
-                    rightMenuLevelSettings[0].attachmentPosition = "NE";
-                    //First level
-                    rightMenuLevelSettings[1] = new MNLevelSettings();
-                    rightMenuLevelSettings[1].parentAttachmentPosition = "SW";
-                    rightMenuLevelSettings[1].attachmentPosition = "NW";
-                    $('#idmenu').mnmenu({levelSettings: rightMenuLevelSettings});
+                    generateButton();
+                    generateMenu();
                     toH();
+                    toNextImage();
                 }
         )
+
+        function generateButton() {
+            $('#pre-button').bind('mouseenter',function () {
+                $('#pre-button').stop().animate({opacity: "0.4"}, 300);
+            }).bind('mouseleave',function () {
+                $('#pre-button').stop().animate({opacity: "0"}, 300);
+            }).bind('click', function () {
+                toPreImage();
+            });
+
+            $('#next-button').bind('mouseenter',function () {
+                $('#next-button').stop().animate({opacity: "0.4"}, 300);
+            }).bind('mouseleave',function () {
+                $('#next-button').stop().animate({opacity: "0"}, 300);
+            }).bind('click', function () {
+                toNextImage();
+            });
+        }
+        function generateLevel1(gallerys) {
+            var level1Root = $('<ul></ul>')
+            for (var i in gallerys) {
+                var g = gallerys[i];
+                level1Root.append($('<li class="menu-item"><a href="/g/' + g["gid"] + '" alt="' + g["galdesc"] + '">' + g["title"] + '</a></li>'))
+            }
+            return level1Root;
+        }
+        function generateMenu() {
+
+            for (var mid in menus) {
+                var m = menus[mid];
+                var level0 = $('<li><a href="#">' + m["name"] + '</a></li>');
+                level0.append(generateLevel1(m["gallerys"]));
+                $('#idmenu').append(level0);
+            }
+            var rightMenuLevelSettings = {};
+            //Defaults
+            rightMenuLevelSettings[0] = new MNLevelSettings();
+            rightMenuLevelSettings[0].parentAttachmentPosition = "NW";
+            rightMenuLevelSettings[0].attachmentPosition = "NE";
+            //First level
+            rightMenuLevelSettings[1] = new MNLevelSettings();
+            rightMenuLevelSettings[1].parentAttachmentPosition = "SW";
+            rightMenuLevelSettings[1].attachmentPosition = "NW";
+            $('#idmenu').mnmenu({levelSettings: rightMenuLevelSettings});
+        }
 
         function stopAll() {
             $("div").stop();
@@ -97,7 +118,7 @@
             var right = $("div#right");
             right.animate({width: 'hide'});
         }
-         function toH() {
+        function toH() {
             if (isH) {
                 return;
             }
@@ -134,14 +155,15 @@
             loading.show();
 
             document.getElementById("preload").onload = function () {
-
                 prePanel.css({"background-image": "url('" + imgPanel.attr("img") + "')"});
+                prePanel.show();
+                imgPanel.stop();
                 imgPanel.hide();
                 imgPanel.css({"background-image": "url('" + img["src"] + "')"});
                 imgPanel.attr("img", img["src"]);
 
-                displayExif(img["exif"]);
-                $("#desc-comment").text(img["desc"]);
+                displayExif(img["meta"]);
+                $("#desc-comment").text(img["description"]);
 
                 if (direction == "r") {
                     imgPanel.css({"left": "-40px"});
@@ -150,22 +172,28 @@
                     imgPanel.css({"left": "40px"});
                     //imgPanel.animate({opacity: 'hidden', left: '40px'}, 'fast', null, null);
                 }
-                imgPanel.animate({opacity: 'show', left: '0px'}, 'slow', null, null);
+                imgPanel.animate({opacity: 'show', left: '0px'}, 'slow', null, function () {
+                    prePanel.hide();
+                });
                 loading.hide();
             }
 
         }
 
         function displayExif(exif) {
-            var exifSwitch = ["Model Name", "Exposure Time", "F Number", "ISO", "Focal Length",
-                "Focal Length In35mmFilm", "Light Source"];
+            var exifSwitch = {
+                "camera": "Camera",
+                "shutter_speed": "Exposure Time",
+                "aperture": "F Number",
+                "iso": "ISO",
+                "focal_length": "Focal Length"};
 
             if (exif) {
                 $("#exif-panel").empty();
-                for (var i in exifSwitch) {
-                    var key = exifSwitch[i];
+                for (var key in exifSwitch) {
+                    var title = exifSwitch[key];
                     if (exif[key]) {
-                        $('<div class="exif-raw"><div class="exif-row-title">' + key + '</div><div class="exif-row-desc">' + exif[key] + '</div></div>').appendTo($("#exif-panel"))
+                        $('<div class="exif-raw"><div class="exif-row-title">' + title + '</div><div class="exif-row-desc">' + exif[key] + '</div></div>').appendTo($("#exif-panel"))
                     }
 
                 }
@@ -197,7 +225,7 @@
 <body style="background: #555555; margin: 0px; overflow-x: hidden;">
 <div id="imgpre" name="imgpre"
      style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index: -999">
-
+</div>
 <div id="imgcur" name="imgcur"
      style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index:0">
 
@@ -205,46 +233,11 @@
 </div>
 <div id="top" name="top"
      style="z-index:999;width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 40px;color: #BBBBBB;display: none;">
-    <div id="top-logo" style="background: url('images/logo_white.png') no-repeat left 0;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"></div>
-    <div id="menu" style="width: 600px; float: right;">
+    <div id="top-logo" style="background: url('/static/images/logo_white.png') no-repeat left 0;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"></div>
+    <div id="menu" style="width: 400px; float: right;">
 
  <ul id="idmenu">
-            <li><a href="#" id="idTestLink"><span>File</span></a>
-                <ul>
-                    <li><a href="#" ><span>New</span></a></li>
-                    <li><a href="#" ><span>Open</span></a></li>
-                    <li><hr></hr></li>
-                    <li><a href="#" ><span>Save</span></a></li>
-                    <li><a href="#"><span>Save as...</span></a></li>
-                    <li><a href="#" ><span>Quit</span></a></li>
-                </ul>
-            </li>
 
-            <li>
-                <a href="#">Menu</a>
-                <ul>
-                    <li><a href="#">Level M-1</a></li>
-                    <li><a href="#">Level M-2</a></li>
-                    <li><a href="#">Level M-3</a></li>
-                    <li><a href="#">Level M-4</a></li>
-                    <li><a href="#">Level M-5</a></li>
-                    <li><a href="#">Level M-7</a></li>
-                    <li><a href="#">Level M-8</a></li>
-                    <li><a href="#">Level M-9</a></li>
-                    <li><a href="#">Level M-10</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" id="id47"><span>Web</span></a>
-                <ul>
-                    <li><a href="#" id="id48"><span>Log</span></a></li>
-                    <li><a href="#" id="id49"><span>Texts</span></a></li>
-                    <li><a href="#" id="id4a"><span>Categories</span></a></li>
-                    <li><a href="#" id="id4b"><span>Articles</span></a></li>
-                    <li><a href="#" id="id4c"><span>Files</span></a></li>
-                </ul>
-            </li>
-        </ul>
     </div>
 </div>
 <div id="bottom" name="bottom" class="foot"
@@ -266,16 +259,14 @@
 
 </div>
 <div id="pre-button"
-     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;left:0;opacity: 0; cursor: pointer; background:url('images/left_arrow.png') center no-repeat"></div>
+     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;left:0;opacity: 0; cursor: pointer; background:url('/static/images/left_arrow.png') center no-repeat"></div>
 <div id="next-button"
-     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;right:0;opacity: 0; cursor: pointer;  background:url('images/right_arrow.png') center no-repeat"></div>
+     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;right:0;opacity: 0; cursor: pointer;  background:url('/static/images/right_arrow.png') center no-repeat"></div>
 <img src="" id="preload" style="display: none;">
 
-<div style="width: 200px;margin:0 auto 0;">
 
 
-    <div id="loading"
-         style="z-index:99;position:absolute;display: none;opacity: 0.2;width: 200px;height:200px; margin-top: 300px; background: url('images/loading.gif') no-repeat center 0;"></div>
-</div>
+<div id="loading" style="z-index:99;position:absolute;display: none;opacity: 0.2; height: 100%; width: 100%;background: url('/static/images/loading.gif') center no-repeat;"></div>
+
 </body>
 </html>
