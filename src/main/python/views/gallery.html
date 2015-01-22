@@ -151,10 +151,6 @@
         function showImage(img, direction) {
             var imgPanel = $("div#imgcur");
             var prePanel = $("div#imgpre");
-
-            var preload = $("#preload");
-            preload.attr("src", img["src"]);
-
             var loading = $("#loading");
             loading.show();
 
@@ -181,7 +177,10 @@
                 });
                 loading.hide();
             }
-
+			
+			var preload = $("#preload");
+			preload.attr("src", null);
+			preload.attr("src", img["src"]);
         }
 
         function displayExif(exif) {
