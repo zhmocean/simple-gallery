@@ -47,7 +47,7 @@
         }
 
         .menu-item{
-            margin-left: 10px;
+            left: 3px;
         }
     </style>
     <script type="text/javascript">
@@ -57,6 +57,7 @@
         var nowImg = 0;
 
         $(document).ready(function () {
+
                     generateButton();
                     generateMenu();
                     toH();
@@ -97,6 +98,9 @@
                 level0.append(generateLevel1(m["gallerys"]));
                 $('#idmenu').append(level0);
             }
+
+            $('#idmenu').mnmenu();
+
             var rightMenuLevelSettings = {};
             //Defaults
             rightMenuLevelSettings[0] = new MNLevelSettings();
@@ -104,9 +108,9 @@
             rightMenuLevelSettings[0].attachmentPosition = "NE";
             //First level
             rightMenuLevelSettings[1] = new MNLevelSettings();
-            rightMenuLevelSettings[1].parentAttachmentPosition = "SW";
-            rightMenuLevelSettings[1].attachmentPosition = "NW";
-            $('#idmenu').mnmenu({levelSettings: rightMenuLevelSettings});
+            rightMenuLevelSettings[1].parentAttachmentPosition = "SE";
+            rightMenuLevelSettings[1].attachmentPosition = "NE";
+            $('#exmenu').mnmenu({levelSettings: rightMenuLevelSettings});
         }
 
         function stopAll() {
@@ -220,6 +224,10 @@
             showImage(gallery[nowImg], "r");
         }
 
+        function toIndex(){
+            window.location.href = "/";
+        }
+
     </script>
 </head>
 <body style="background: #555555; margin: 0px; overflow-x: hidden;">
@@ -228,17 +236,53 @@
 </div>
 <div id="imgcur" name="imgcur"
      style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index:0">
-
-
 </div>
 <div id="top" name="top"
      style="z-index:999;width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 40px;color: #BBBBBB;display: none;">
-    <div id="top-logo" style="background: url('/static/images/logo_white.png') no-repeat left 0;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"></div>
-    <div id="menu" style="width: 400px; float: right;">
+    <div id="top-logo"
+         style="background: url('/static/images/logo_white.png') no-repeat left 0;cursor: pointer;width: 190px;margin:10px;height: 20px;opacity: 0.7;float: left;"
+         onclick="return toIndex();"></div>
 
- <ul id="idmenu">
+    <div style="width: 60px; float: right;">
+        <ul id="exmenu" style="opacity:0.8;float:right;background: url('/static/images/menu.png') center no-repeat;">
+            <li>
+                <ul>
+                                        <li>
+                        <hr></hr>
+                    </li>
+                    <li><a href="http://photo.tangcu.biz/" target="_blank">旧版相册</a></li>
+                    <li><a href="http://read.douban.com/people/2443614/" target="_blank">我的豆瓣影集</a></li>
+                    <li><a href="http://blog.tangcu.biz/" target="_blank">我的BLOG</a></li>
+                    <li>
+                        <hr></hr>
+                    </li>
+                    <li><a href="http://hi.huitu.com/363071/" target="_blank">汇图网销售（国内）</a></li>
+                    <li><a href="http://www.shutterstock.com/gallery-869707p1.html" target="_blank">Shutterstock销售（国外）</a></li>
+                    <li>
+                        <hr></hr>
+                    </li>
+                    <li><a href="http://weibo.com/hzeye" target="_blank">微博 @糖醋鼻子眼</a></li>
+                    <li>微信 hzzzzzz_eye</li>
+                    <li><a href="https://github.com/zhmocean/simple-gallery" target="_blank">source @github</a></li>
+                    <li><a href="http://weibo.com/zhmocean" target="_blank">版权：糖醋鼻子</a></li>
+                    <li>
+                        <hr></hr>
+                    </li>
+                    <li>
+                        <script language="javascript" type="text/javascript" src="http://js.users.51.la/15453028.js"></script>
+<noscript><a href="http://www.51.la/?15453028" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/15453028.asp" style="border:none" /></a></noscript>
+<script language="javascript" type="text/javascript" src="http://quote.51.la/?id=15453028&amp;mb=3"></script>
+
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div id="menu" style="width: 320px; float: right;">
+        <ul id="idmenu"></ul>
 
     </div>
+</div>
 </div>
 <div id="bottom" name="bottom" class="foot"
      style="z-index:999;width:100%;bottom:0;position: absolute;opacity: 0.5; background: #111111; margin: 0px; height: 100px;color: #FFFFFF;width: 100%;display: none;">

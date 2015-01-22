@@ -252,7 +252,7 @@
         //TODO: Rething function to adad customization capabilities (Ajax links, support for href target...)
         clearTimeout($menu.data('timer'));
         var $link = $menu.children('a');
-        if ($link.attr('href')) {
+        if ($link.attr('href') && ("_blank" != $link.attr('target'))) {
             window.location.href = $link.attr('href');
         }
     };

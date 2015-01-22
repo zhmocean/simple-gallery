@@ -11,22 +11,11 @@ class WordpressNggDb:
         self.basepath = config.wpconf["base_path"]
 
     def findMenus(self):
-        menus = {}
-        gids = set()
-
-        aids = config.wpconf["albums_ids"]
-        albums = self.touchDb("SELECT id, name, slug, sortorder FROM wp_ngg_album where id in ("+",".join(map(str,aids))+")")
-
-        for a in albums:
-            ags = phpserialize.loads(a["sortorder"])
-            gids = gids.union(set(ags.values()))
-            a["agids"] = ags.values()
-            del a["sortorder"]
-            menus[str(a["id"])] = a
+        menus, gids = self.__findAlbumInfo()
 
         gallerys = {}
 
-        for g in self.touchDb("SELECT gid, name, slug, title, galdesc FROM wp_ngg_gallery where gid in ("+",".join(map(str, gids))+")"):
+        for g in self.touchDb("SELECT gid, name, slug, title, galdesc FROM wp_ngg_gallery WHERE gid in ("+",".join(map(str, gids))+")"):
             gallerys[str(g["gid"])] = g
 
         for k in menus:
@@ -35,8 +24,11 @@ class WordpressNggDb:
 
         return menus
 
+
     def findPicturesByGid(self, gid):
-        return self.findPictures("SELECT pid, image_slug, filename, description, alttext,meta_data, g.path as gpath, g.name as gname, g.slug as gslug FROM wp_ngg_pictures,wp_ngg_gallery g  where g.gid=galleryid and galleryid ="+gid)
+        return self.findPictures("SELECT pid, image_slug, filename, description, alttext,meta_data, g.path as gpath, g.name as gname, g.slug as gslug "
+                                 "FROM wp_ngg_pictures,wp_ngg_gallery g  "
+                                 "WHERE g.gid=galleryid and galleryid ="+str(gid))
 
     def findPictures(self, sql):
         pics = self.touchDb(sql)
@@ -52,8 +44,13 @@ class WordpressNggDb:
         return pics
 
 
-    def findRecentPictures(self, count):
-        return []
+    def findRecentPictures(self, count=10):
+        menus, gids = self.__findAlbumInfo()
+
+        return self.findPictures("SELECT pid, image_slug, filename, description, alttext,meta_data, g.path as gpath, g.name as gname, g.slug as gslug "
+                                 "FROM wp_ngg_pictures,wp_ngg_gallery g  "
+                                 "WHERE g.gid=galleryid and galleryid in ("+",".join(map(str, gids))+") order by pid desc limit "+str(count))
+
 
     def touchDb(self, sql):
         ret = []
@@ -81,5 +78,20 @@ class WordpressNggDb:
 
         return ret
 
+    def __findAlbumInfo(self):
+        menus = {}
+        gids = set()
+
+        aids = config.wpconf["albums_ids"]
+        albums = self.touchDb("SELECT id, name, slug, sortorder FROM wp_ngg_album where id in ("+",".join(map(str,aids))+")")
+
+        for a in albums:
+            ags = phpserialize.loads(a["sortorder"])
+            gids = gids.union(set(ags.values()))
+            a["agids"] = ags.values()
+            del a["sortorder"]
+            menus[str(a["id"])] = a
+
+        return menus, gids
 
 db=WordpressNggDb()

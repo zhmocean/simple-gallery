@@ -12,6 +12,7 @@ except ImportError as ex:
     import json
 
 import bottle
+import random
 
 # BASE package directory
 BASE_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -27,12 +28,37 @@ def getPictures(gid):
     import wordpress_data
     return wordpress_data.db.findPicturesByGid(gid)
 
+def getRecentPictures(count):
+    import wordpress_data
+    return wordpress_data.db.findRecentPictures(count=count)
+
 def loadWebUI(app):
-    @app.route(['/g/<gid>','/'])
+    @app.route(['/g/<gid>'])
     @bottle.view('gallery')
     def gallery(gid=None):
+        galleryid = 0;
+
+        try:
+            import string
+            galleryid = string.atoi(gid)
+        except:
+            print "ERROR gid: ", gid
+            return bottle.HTTPError(404, "No this Gallery")
+
         menus = generateMenus()
-        pics = getPictures(gid)
+        pics = getPictures(str(galleryid))
+        random.shuffle(pics)
+        return dict(
+            menus=json.dumps(menus),
+            pics=json.dumps(pics)
+                    )
+
+    @app.route(['/'])
+    @bottle.view('gallery')
+    def galleryIndex():
+        menus = generateMenus()
+        pics = getRecentPictures(10)
+        random.shuffle(pics)
         return dict(
             menus=json.dumps(menus),
             pics=json.dumps(pics)
