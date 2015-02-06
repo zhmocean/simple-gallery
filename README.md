@@ -1,2 +1,2 @@
 # simple-gallery
-A simple gallery is a single site for WordPress ngg-gallery pictures
+simple gallery is a single site for WordPress ngg-gallery pictures
