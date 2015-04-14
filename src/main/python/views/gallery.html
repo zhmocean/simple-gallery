@@ -49,6 +49,25 @@
         .menu-item{
             left: 3px;
         }
+        .image-canvas{
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position-x: 50%;
+            background-position-y: 50%;
+            position: absolute;
+        }
+        .page-button{
+            width: 300px;
+            height: 100%;
+            top:0;
+            position: absolute;
+            z-index:99;
+            opacity: 0;
+            cursor: pointer;
+        }
     </style>
     <script type="text/javascript">
         var isH = false;
@@ -156,10 +175,12 @@
 
             document.getElementById("preload").onload = function () {
                 prePanel.css({"background-image": "url('" + imgPanel.attr("img") + "')"});
+                prePanel.css({"filter": "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+ imgPanel.attr("img") +"',sizingMethod='scale')"})
                 prePanel.show();
                 imgPanel.stop();
                 imgPanel.hide();
                 imgPanel.css({"background-image": "url('" + img["src"] + "')"});
+                imgPanel.css({"filter": "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+ img["src"] +"',sizingMethod='scale')"})
                 imgPanel.attr("img", img["src"]);
 
                 displayExif(img["meta"]);
@@ -230,11 +251,9 @@
     </script>
 </head>
 <body style="background: #555555; margin: 0px; overflow-x: hidden;">
-<div id="imgpre" name="imgpre"
-     style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index: -999">
+<div id="imgpre" name="imgpre" class="image-canvas" style="z-index: -999" >
 </div>
-<div id="imgcur" name="imgcur"
-     style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index:0">
+<div id="imgcur" name="imgcur" class="image-canvas" style="z-index:0">
 </div>
 <div id="top" name="top"
      style="z-index:999;width:100%;top:0;position: absolute;opacity: 0.6; background: #111111; margin: 0px; height: 40px;color: #BBBBBB;display: none;">
@@ -277,7 +296,7 @@
             </li>
         </ul>
     </div>
-    <div id="menu" style="width: 320px; float: right;">
+    <div id="menu" style="width: 360px; float: right;">
         <ul id="idmenu"></ul>
 
     </div>
@@ -294,17 +313,15 @@
 </div>
 <div id="left" name="left" class="left"
      style="opacity: 0.6; background: #111111; margin: 0px; width: 140px;color: #BBBBBB;height: 100%;float:left;left:0;top:0;position:absolute;display: none;">
-    sdfads
+
 </div>
 <div id="right" name="right" class="right"
      style="opacity: 0.4; background: #111111; margin: 0px; width: 160px;color: #FFFFFF;height: 100%;right:0;top:0;position:absolute;display: none;">
 
 
 </div>
-<div id="pre-button"
-     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;left:0;opacity: 0; cursor: pointer; background:url('/static/images/left_arrow.png') center no-repeat"></div>
-<div id="next-button"
-     style="width: 300px;height: 100%;top:0;position: absolute;z-index:99;right:0;opacity: 0; cursor: pointer;  background:url('/static/images/right_arrow.png') center no-repeat"></div>
+<div id="pre-button" class="page-button" style="left: 0;background:url('/static/images/left_arrow.png') center no-repeat"></div>
+<div id="next-button" class="page-button" style="right: 0;background:url('/static/images/right_arrow.png') center no-repeat"></div>
 <img src="" id="preload" style="display: none;">
 
 

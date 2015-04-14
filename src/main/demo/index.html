@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -136,8 +136,10 @@
             document.getElementById("preload").onload = function () {
 
                 prePanel.css({"background-image": "url('" + imgPanel.attr("img") + "')"});
+				prePanel.css({"filter": "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+ imgPanel.attr("img") +"',sizingMethod='scale')"})
                 imgPanel.hide();
                 imgPanel.css({"background-image": "url('" + img["src"] + "')"});
+				imgPanel.css({"filter": "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+ img["src"] +"',sizingMethod='scale')"})
                 imgPanel.attr("img", img["src"]);
 
                 displayExif(img["exif"]);
@@ -196,10 +198,10 @@
 </head>
 <body style="background: #555555; margin: 0px; overflow-x: hidden;">
 <div id="imgpre" name="imgpre"
-     style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index: -999">
+     style="filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.jpg',sizingMethod='scale');-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index: -999">
 
 <div id="imgcur" name="imgcur"
-     style="width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index:0">
+     style="filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.jpg',sizingMethod='scale');-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;width: 100%; height: 100%; margin: 0px;background-image: url('img.jpg');background-repeat: no-repeat;background-size: cover;background-position-x: 50%; background-position-y: 50%;position: absolute;z-index:0">
 
 
 </div>
