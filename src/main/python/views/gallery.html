@@ -239,24 +239,26 @@
             }
         }
 
+        function loadCache(justImg){
+            var preImg = (justImg > 0) ? justImg -1 : gallery.length - 1;
+            var nextImg = (justImg < gallery.length - 1) ?justImg +1: 0;
+
+            $("#preload_pre").attr("src", gallery[preImg]["src"]);
+            $("#preload_next").attr("src", gallery[nextImg]["src"]);
+        }
+
         function toPreImage() {
-            if (nowImg > 0) {
-                nowImg--;
-            } else {
-                nowImg = gallery.length - 1;
-            }
+            nowImg = (nowImg > 0) ? nowImg -1 : gallery.length - 1;
 
             showImage(gallery[nowImg], "l");
+            loadCache(nowImg);
         }
 
         function toNextImage() {
-            if (nowImg < gallery.length - 1) {
-                nowImg++;
-            } else {
-                nowImg = 0;
-            }
+            nowImg = (nowImg < gallery.length - 1) ? nowImg + 1: 0;
 
             showImage(gallery[nowImg], "r");
+            loadCache(nowImg);
         }
 
         function toIndex(){
@@ -338,8 +340,8 @@
 <div id="pre-button" class="page-button" style="left: 0;background:url('/static/images/left_arrow.png') center no-repeat"></div>
 <div id="next-button" class="page-button" style="right: 0;background:url('/static/images/right_arrow.png') center no-repeat"></div>
 <img src="" id="preload" style="display: none;">
-
-
+<img src="" id="preload_pre" style="display: none;">
+<img src="" id="preload_next" style="display: none;">
 
 <div id="loading" style="z-index:99;position:absolute;display: none;opacity: 0.2; height: 100%; width: 100%;background: url('/static/images/loading.gif') center no-repeat;"></div>
 
