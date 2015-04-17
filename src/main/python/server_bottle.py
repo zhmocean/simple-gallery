@@ -57,7 +57,7 @@ def loadWebUI(app):
     @bottle.view('gallery')
     def galleryIndex():
         menus = generateMenus()
-        pics = getRecentPictures(10)
+        pics = getRecentPictures(20)
         random.shuffle(pics)
         return dict(
             menus=json.dumps(menus),

@@ -76,6 +76,7 @@
         var nowImg = 0;
 
         $(document).ready(function () {
+                    $(document).keyup(keyEvent);
 
                     generateButton();
                     generateMenu();
@@ -83,6 +84,20 @@
                     toNextImage();
                 }
         )
+
+        function keyEvent(){
+            var keycode = event.which || event.keyCode;
+            switch(keycode){
+                case 37:
+                    toPreImage();
+                    return 0;
+                    break;
+                case 39:
+                    toNextImage();
+                    return 0;
+                    break;
+            }
+        }
 
         function generateButton() {
             $('#pre-button').bind('mouseenter',function () {
