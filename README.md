@@ -11,7 +11,7 @@ MySQL database of wordPress ngg-gallery (https://wordpress.org/plugins/nextgen-g
 ## run the server
 ...
 python server_bottle.py
-'''
+...
 
 sample at: http://gallery.tangcu.biz/
 
