@@ -32,6 +32,10 @@ def getRecentPictures(count):
     import wordpress_data
     return wordpress_data.db.findRecentPictures(count=count)
 
+def needSerial(gid):
+    import config
+    return config.wpconf.get("serial_gallery") and gid in config.wpconf.get("serial_gallery")
+
 def loadWebUI(app):
     @app.route(['/g/<gid>'])
     @bottle.view('gallery')
@@ -47,7 +51,8 @@ def loadWebUI(app):
 
         menus = generateMenus()
         pics = getPictures(str(galleryid))
-        random.shuffle(pics)
+        if not needSerial(galleryid):
+            random.shuffle(pics)
         return dict(
             menus=json.dumps(menus),
             pics=json.dumps(pics)

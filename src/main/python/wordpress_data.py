@@ -28,7 +28,8 @@ class WordpressNggDb:
     def findPicturesByGid(self, gid):
         return self.findPictures("SELECT pid, image_slug, filename, description, alttext,meta_data, g.path as gpath, g.name as gname, g.slug as gslug "
                                  "FROM wp_ngg_pictures,wp_ngg_gallery g  "
-                                 "WHERE g.gid=galleryid and galleryid ="+str(gid))
+                                 "WHERE g.gid=galleryid and galleryid ="+str(gid)
+                                +" ORDER BY wp_ngg_pictures.sortorder")
 
     def findPictures(self, sql):
         pics = self.touchDb(sql)

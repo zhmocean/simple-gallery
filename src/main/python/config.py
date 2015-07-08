@@ -3,6 +3,7 @@
 
 wpconf = {
     "albums_ids":[2,3],
+    "serial_gallery": [],
     "db_host": "localhost",
     "db_port": 3306,
     "db_user": "",
