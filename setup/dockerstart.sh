@@ -37,6 +37,6 @@ sed -i "s/\$db_dbname/$db_dbname/g" /data/gallery/config.py
 
 
 if [ -z "$base_path" ]; then
-        export base_path="photo.tangcu.biz"
+        export base_path="http://photo.tangcu.biz/"
 fi
-sed -i "s/\$base_path/$base_path/g" /data/gallery/config.py
+sed -i -e "s@\$base_path@$base_path@g" /data/gallery/config.py

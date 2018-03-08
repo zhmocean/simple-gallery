@@ -12,4 +12,4 @@ ADD ./requirement /data/gallery/requirement
 
 RUN apt-get update && apt-get install python python-pip -y && apt-get clean  && pip install --no-cache-dir -r /data/gallery/requirement
 
-ENTRYPOINT /setup/dockerstart.sh && python /data/gallery/server_bottle.py
+ENTRYPOINT /setup/dockerstart.sh && cd /data/gallery &&  python /data/gallery/server_bottle.py

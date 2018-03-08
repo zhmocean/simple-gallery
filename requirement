@@ -2,4 +2,5 @@ PyMySQL==0.6.3
 PyYAML==3.10
 Beaker==1.6.4
 Paste==1.7.5.1
+phpserialize==1.3
 
