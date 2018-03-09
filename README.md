@@ -9,7 +9,7 @@ MySQL database of WordPress ngg-gallery (https://wordpress.org/plugins/nextgen-g
 
 ## requirement
 > * Python 2.6+
-> * file: requirement
+> * pip requirement file: requirement
 
 ## config for server
 Modify config.py to the value for runtime.
@@ -32,8 +32,13 @@ python server_bottle.py
 
 ## run with docker
 
+build image
 ```
 docker build . -t simple-gallery-docker
+```
+
+run container
+```
 docker run -d --name=simple-gallery \
     --net=wordpress-photo-net \
     -e db_host=wordpress-mysql \
